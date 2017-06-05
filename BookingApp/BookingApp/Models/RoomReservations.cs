@@ -15,7 +15,7 @@ namespace BookingApp.Models
 
         public DateTime EndDate { get; set; }
 
-        [Timestamp]
+        //[Timestamp]
         public DateTime Timestamp { get; set; }
 
         [ForeignKey("Room")]
