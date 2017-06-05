@@ -9,9 +9,10 @@ namespace BookingApp.Models
 {
     public class Region
     {
+        [Key]
         public int Id { get; set; }
 
-        [StringLength(50)]
+        [MaxLength(40)]
         public string Name { get; set; }
 
         [ForeignKey("Country")]

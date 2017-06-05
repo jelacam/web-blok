@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
@@ -8,12 +9,14 @@ namespace BookingApp.Models
 {
     public class Accommodation
     {
+        [Key]
         public int Id { get; set; }
 
+        [MaxLength(40)]
         public string Name { get; set; }
-
+        [MaxLength(400)]
         public string Description { get; set; }
-
+        [MaxLength(60)]
         public string Address { get; set; }
 
         public double AverageGrade { get; set; }
