@@ -17,7 +17,7 @@ namespace BookingApp.Controllers
         private BAContext db = new BAContext();
 
         [HttpGet]
-        [Route("Countries", Name = "DefaultApi")]
+        [Route("Countries", Name = "CountryApi")]
         public IHttpActionResult GetCountries()
         {
             DbSet<Country> countries = db.AppCountries;
@@ -78,7 +78,7 @@ namespace BookingApp.Controllers
             db.AppCountries.Add(country);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = country.Id }, country);
+            return CreatedAtRoute("CountryApi", new { id = country.Id }, country);
         }
 
     }
