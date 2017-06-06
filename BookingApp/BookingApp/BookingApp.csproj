@@ -258,8 +258,14 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\AccommodationController.cs" />
+    <Compile Include="Controllers\AccommodationTypeController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+<<<<<<< HEAD
     <Compile Include="Controllers\AppUserController.cs" />
+=======
+    <Compile Include="Controllers\CommentController.cs" />
+>>>>>>> e87ae6d280fe3731332b76b2ea3478d6ce568cdd
     <Compile Include="Controllers\CountryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PlaceController.cs" />

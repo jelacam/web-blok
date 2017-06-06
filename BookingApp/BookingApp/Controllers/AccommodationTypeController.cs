@@ -11,40 +11,40 @@ using System.Web.Http.Description;
 
 namespace BookingApp.Controllers
 {
-    [RoutePrefix("api/country")]
-    public class CountryController : ApiController
+    [RoutePrefix("api/acctype")]
+    public class AccommodationTypeController : ApiController
     {
         private BAContext db = new BAContext();
 
         [HttpGet]
-        [Route("countries", Name = "CountryApi")]
-        public IHttpActionResult GetCountries()
+        [Route("acctypes", Name = "AccType")]
+        public IHttpActionResult GetAccTypes()
         {
-            DbSet<Country> countries = db.AppCountries;
+            DbSet<AccommodationType> acctypes = db.AppAccommodationTypes;
 
-            if (countries == null)
+            if(acctypes == null)
             {
                 return NotFound();
             }
 
-            return Ok(countries);
+            return Ok(acctypes);
         }
 
         [HttpPut]
-        [Route("countries/{id}")]
-        public IHttpActionResult PutCountry(int id, Country country)
+        [Route("acctypes/{id}")]
+        public IHttpActionResult PutAccType(int id, AccommodationType acctype)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if(id != country.Id)
+            if (id != acctype.Id)
             {
                 return BadRequest("Ids are not matching!");
             }
 
-            db.Entry(country).State = EntityState.Modified;
+            db.Entry(acctype).State = EntityState.Modified;
 
             try
             {
@@ -52,7 +52,7 @@ namespace BookingApp.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (db.AppCountries.Find(id) == null)
+                if (db.AppAccommodationTypes.Find(id) == null)
                 {
                     return NotFound();
                 }
@@ -66,38 +66,37 @@ namespace BookingApp.Controllers
         }
 
         [HttpPost]
-        [Route("countries")]
-        [ResponseType(typeof(Country))]
-        public IHttpActionResult PostCountry(Country country)
+        [Route("acctypes")]
+        [ResponseType(typeof(AccommodationType))]
+        public IHttpActionResult PostAccType(AccommodationType acctype)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            bool countryExists = false;
-            foreach (var item in db.AppCountries)
+            bool acctypeExists = false;
+
+            foreach (var item in db.AppAccommodationTypes)
             {
-                if (item.Name.Equals(country.Name) && item.Code.Equals(country.Code))
+                if(item.Name.Equals(acctype.Name))
                 {
-                    countryExists = true;
+                    acctypeExists = true;
                     break;
                 }
             }
 
-            if(countryExists == false)
+            if(acctypeExists == false)
             {
-                db.AppCountries.Add(country);
+                db.AppAccommodationTypes.Add(acctype);
                 db.SaveChanges();
 
-                return CreatedAtRoute("CountryApi", new { id = country.Id }, country);
+                return CreatedAtRoute("CountryApi", new { id = acctype.Id }, acctype);
             }
             else
             {
                 return BadRequest();
             }
-            
         }
-
     }
 }

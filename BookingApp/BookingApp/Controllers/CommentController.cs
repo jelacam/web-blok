@@ -11,40 +11,40 @@ using System.Web.Http.Description;
 
 namespace BookingApp.Controllers
 {
-    [RoutePrefix("api/country")]
-    public class CountryController : ApiController
+    [RoutePrefix("api/comment")]
+    public class CommentController : ApiController
     {
         private BAContext db = new BAContext();
 
         [HttpGet]
-        [Route("countries", Name = "CountryApi")]
-        public IHttpActionResult GetCountries()
+        [Route("comments", Name = "CommentApi")]
+        public IHttpActionResult GetComment()
         {
-            DbSet<Country> countries = db.AppCountries;
+            DbSet<Comment> comments = db.AppComments;
 
-            if (countries == null)
+            if(comments == null)
             {
                 return NotFound();
             }
 
-            return Ok(countries);
+            return Ok(comments);
         }
 
         [HttpPut]
-        [Route("countries/{id}")]
-        public IHttpActionResult PutCountry(int id, Country country)
+        [Route("comments/{id}")]
+        public IHttpActionResult PutComment(int id, Comment comment)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if(id != country.Id)
+            if (id != comment.Id)
             {
                 return BadRequest("Ids are not matching!");
             }
 
-            db.Entry(country).State = EntityState.Modified;
+            db.Entry(comment).State = EntityState.Modified;
 
             try
             {
@@ -52,7 +52,7 @@ namespace BookingApp.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (db.AppCountries.Find(id) == null)
+                if (db.AppComments.Find(id) == null)
                 {
                     return NotFound();
                 }
@@ -66,38 +66,38 @@ namespace BookingApp.Controllers
         }
 
         [HttpPost]
-        [Route("countries")]
-        [ResponseType(typeof(Country))]
-        public IHttpActionResult PostCountry(Country country)
+        [Route("comments")]
+        [ResponseType(typeof(Comment))]
+        public IHttpActionResult PostComment(Comment comment)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            bool countryExists = false;
-            foreach (var item in db.AppCountries)
+            bool commentExists = false;
+            foreach (var item in db.AppComments)
             {
-                if (item.Name.Equals(country.Name) && item.Code.Equals(country.Code))
+                if(item.AppUserId.Equals(comment.AppUserId)
+                    && item.AccommodationId.Equals(comment.AccommodationId))
                 {
-                    countryExists = true;
+                    commentExists = true;
                     break;
                 }
             }
 
-            if(countryExists == false)
+            if (commentExists == false)
             {
-                db.AppCountries.Add(country);
+                db.AppComments.Add(comment);
                 db.SaveChanges();
 
-                return CreatedAtRoute("CountryApi", new { id = country.Id }, country);
+                return CreatedAtRoute("CountryApi", new { id = comment.Id }, comment);
             }
             else
             {
                 return BadRequest();
             }
-            
-        }
 
+        }
     }
 }
