@@ -75,10 +75,25 @@ namespace BookingApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            db.AppCountries.Add(country);
-            db.SaveChanges();
+            bool countryExists = false;
+            foreach (var item in db.AppCountries)
+            {
+                if (item.Name.Equals(country.Name) && item.Code.Equals(country.Code))
+                    countryExists = true;
+            }
 
-            return CreatedAtRoute("CountryApi", new { id = country.Id }, country);
+            if(countryExists == false)
+            {
+                db.AppCountries.Add(country);
+                db.SaveChanges();
+
+                return CreatedAtRoute("CountryApi", new { id = country.Id }, country);
+            }
+            else
+            {
+                return BadRequest();
+            }
+            
         }
 
     }
