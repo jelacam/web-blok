@@ -11,40 +11,40 @@ using System.Web.Http.Description;
 
 namespace BookingApp.Controllers
 {
-    [RoutePrefix("api/country")]
-    public class CountryController : ApiController
+    [RoutePrefix("api/accommodation")]
+    public class AccommodationController : ApiController
     {
         private BAContext db = new BAContext();
 
         [HttpGet]
-        [Route("countries", Name = "CountryApi")]
-        public IHttpActionResult GetCountries()
+        [Route("accommodations", Name = "AccommodationApi")]
+        public IHttpActionResult GetAccommodations()
         {
-            DbSet<Country> countries = db.AppCountries;
+            DbSet<Accommodation> accommodations = db.AppAccommodations;
 
-            if (countries == null)
+            if (accommodations == null)
             {
                 return NotFound();
             }
 
-            return Ok(countries);
+            return Ok(accommodations);
         }
 
         [HttpPut]
-        [Route("countries/{id}")]
-        public IHttpActionResult PutCountry(int id, Country country)
+        [Route("accommodations/{id}")]
+        public IHttpActionResult PutAccommodation(int id, Accommodation accommodation)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if(id != country.Id)
+            if (id != accommodation.Id)
             {
                 return BadRequest("Ids are not matching!");
             }
 
-            db.Entry(country).State = EntityState.Modified;
+            db.Entry(accommodation).State = EntityState.Modified;
 
             try
             {
@@ -52,7 +52,7 @@ namespace BookingApp.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (db.AppCountries.Find(id) == null)
+                if (db.AppAccommodations.Find(id) == null)
                 {
                     return NotFound();
                 }
@@ -66,37 +66,39 @@ namespace BookingApp.Controllers
         }
 
         [HttpPost]
-        [Route("countries")]
-        [ResponseType(typeof(Country))]
-        public IHttpActionResult PostCountry(Country country)
+        [Route("accommodations")]
+        [ResponseType(typeof(Accommodation))]
+        public IHttpActionResult PostAccommodation(Accommodation accommodation)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            bool countryExists = false;
-            foreach (var item in db.AppCountries)
+            bool accommodationExists = false;
+            foreach (var item in db.AppAccommodations)
             {
-                if (item.Name.Equals(country.Name) && item.Code.Equals(country.Code))
+                if(item.Name.Equals(accommodation.Name)
+                    && item.Address.Equals(accommodation.Address)
+                    && item.Place.Equals(accommodation.Place))
                 {
-                    countryExists = true;
+                    accommodationExists = true;
                     break;
                 }
+
             }
 
-            if(countryExists == false)
+            if (accommodationExists == false)
             {
-                db.AppCountries.Add(country);
+                db.AppAccommodations.Add(accommodation);
                 db.SaveChanges();
 
-                return CreatedAtRoute("CountryApi", new { id = country.Id }, country);
+                return CreatedAtRoute("AccommodationApi", new { id = accommodation.Id }, accommodation);
             }
             else
             {
                 return BadRequest();
             }
-            
         }
 
     }
