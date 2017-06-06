@@ -1,0 +1,9 @@
+diff a/BookingApp/BookingApp/BookingApp.csproj b/BookingApp/BookingApp/BookingApp.csproj	(rejected hunks)
+@@ -263,6 +263,7 @@
+     <Compile Include="Controllers\AccommodationController.cs" />
+     <Compile Include="Controllers\AccommodationTypeController.cs" />
+     <Compile Include="Controllers\AccountController.cs" />
++<<<<<<< HEAD
+     <Compile Include="Controllers\AppUserController.cs" />
+ =======
+     <Compile Include="Controllers\CommentController.cs" />
