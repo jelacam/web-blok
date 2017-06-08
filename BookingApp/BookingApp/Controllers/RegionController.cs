@@ -1,51 +1,46 @@
 ﻿using BookingApp.Models;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 
 namespace BookingApp.Controllers
 {
-    [RoutePrefix("api/place")]
-    public class PlaceController : ApiController
+    [RoutePrefix("api/region")]
+    public class RegionController : ApiController
     {
         private BAContext db = new BAContext();
 
         [HttpGet]
-        [Route("places", Name = "PlaceApi")]
-        public IHttpActionResult GetPlaces()
+        [Route("regions", Name = "RegionApi")]
+        public IHttpActionResult GetRegions()
         {
-            DbSet<Place> places = db.AppPlaces;
+            DbSet<Region> regions = db.AppRegions;
 
-            if (places == null)
+            if (regions == null)
             {
                 return NotFound();
             }
 
-            return Ok(places);
-     
+            return Ok(regions);
         }
 
         [HttpPut]
-        [Route("places/{id}")]
-        public IHttpActionResult PutPlace(int id, Place place)
+        [Route("regions/{id}")]
+        public IHttpActionResult PutRegion(int id, Region region)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != place.Id)
+            if (id != region.Id)
             {
                 return BadRequest("Ids are not matching!");
             }
 
-            db.Entry(place).State = EntityState.Modified;
+            db.Entry(region).State = EntityState.Modified;
 
             try
             {
@@ -53,7 +48,7 @@ namespace BookingApp.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (db.AppPlaces.Find(id) == null)
+                if (db.AppRegions.Find(id) == null)
                 {
                     return NotFound();
                 }
@@ -67,29 +62,19 @@ namespace BookingApp.Controllers
         }
 
         [HttpPost]
-        [Route("places")]
-        [ResponseType(typeof(RoomReservations))]
-        public IHttpActionResult PostPlace(Place place)
+        [Route("regions")]
+        [ResponseType(typeof(Region))]
+        public IHttpActionResult PostRegion(Region region)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            try
-            {
-                db.AppPlaces.Add(place);
+            db.AppRegions.Add(region);
+            db.SaveChanges();
 
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-
-                throw;
-            }
-
-            return CreatedAtRoute("PlaceApi", new { id = place.Id }, place);
+            return CreatedAtRoute("RegionApi", new { id = region.Id }, region);
         }
-
     }
 }

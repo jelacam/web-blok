@@ -11,41 +11,41 @@ using System.Web.Http.Description;
 
 namespace BookingApp.Controllers
 {
-    [RoutePrefix("api/place")]
-    public class PlaceController : ApiController
+    [RoutePrefix("api/room")]
+    public class RoomController : ApiController
     {
         private BAContext db = new BAContext();
 
         [HttpGet]
-        [Route("places", Name = "PlaceApi")]
-        public IHttpActionResult GetPlaces()
+        [Route("rooms", Name = "RoomApi")]
+        public IHttpActionResult GetRooms()
         {
-            DbSet<Place> places = db.AppPlaces;
+            DbSet<Room> rooms = db.AppRooms;
 
-            if (places == null)
+            if (rooms == null)
             {
                 return NotFound();
             }
 
-            return Ok(places);
-     
+            return Ok(rooms);
+
         }
 
         [HttpPut]
-        [Route("places/{id}")]
-        public IHttpActionResult PutPlace(int id, Place place)
+        [Route("rooms/{id}")]
+        public IHttpActionResult PutRoom(int id, Room room)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != place.Id)
+            if (id != room.Id)
             {
                 return BadRequest("Ids are not matching!");
             }
 
-            db.Entry(place).State = EntityState.Modified;
+            db.Entry(room).State = EntityState.Modified;
 
             try
             {
@@ -53,7 +53,7 @@ namespace BookingApp.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (db.AppPlaces.Find(id) == null)
+                if (db.AppRooms.Find(id) == null)
                 {
                     return NotFound();
                 }
@@ -67,9 +67,9 @@ namespace BookingApp.Controllers
         }
 
         [HttpPost]
-        [Route("places")]
-        [ResponseType(typeof(RoomReservations))]
-        public IHttpActionResult PostPlace(Place place)
+        [Route("rooms")]
+        [ResponseType(typeof(Room))]
+        public IHttpActionResult PostRoom(Room room)
         {
             if (!ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace BookingApp.Controllers
 
             try
             {
-                db.AppPlaces.Add(place);
+                db.AppRooms.Add(room);
 
                 db.SaveChanges();
             }
@@ -88,8 +88,7 @@ namespace BookingApp.Controllers
                 throw;
             }
 
-            return CreatedAtRoute("PlaceApi", new { id = place.Id }, place);
+            return CreatedAtRoute("RoomApi", new { id = room.Id }, room);
         }
-
     }
 }

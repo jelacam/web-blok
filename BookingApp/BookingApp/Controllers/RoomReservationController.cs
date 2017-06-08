@@ -1,51 +1,49 @@
-﻿using BookingApp.Models;
-using System;
-using System.Collections.Generic;
+﻿
+
+using BookingApp.Models;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 
 namespace BookingApp.Controllers
 {
-    [RoutePrefix("api/place")]
-    public class PlaceController : ApiController
+    [RoutePrefix("api/RoomReservation")]
+    public class RoomReservationController : ApiController
     {
         private BAContext db = new BAContext();
 
         [HttpGet]
-        [Route("places", Name = "PlaceApi")]
-        public IHttpActionResult GetPlaces()
+        [Route("roomReservations", Name = "RoomReservationApi")]
+        public IHttpActionResult GetRoomReservations()
         {
-            DbSet<Place> places = db.AppPlaces;
+            DbSet<RoomReservations> roomReservations = db.AppRoomReservations;
 
-            if (places == null)
+            if (roomReservations == null)
             {
                 return NotFound();
             }
 
-            return Ok(places);
-     
+            return Ok(roomReservations);
+
         }
 
         [HttpPut]
-        [Route("places/{id}")]
-        public IHttpActionResult PutPlace(int id, Place place)
+        [Route("roomReservations/{id}")]
+        public IHttpActionResult PutRoomReservations(int id, RoomReservations roomReserv)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != place.Id)
+            if (id != roomReserv.Id)
             {
                 return BadRequest("Ids are not matching!");
             }
 
-            db.Entry(place).State = EntityState.Modified;
+            db.Entry(roomReserv).State = EntityState.Modified;
 
             try
             {
@@ -53,7 +51,7 @@ namespace BookingApp.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (db.AppPlaces.Find(id) == null)
+                if (db.AppRoomReservations.Find(id) == null)
                 {
                     return NotFound();
                 }
@@ -67,9 +65,9 @@ namespace BookingApp.Controllers
         }
 
         [HttpPost]
-        [Route("places")]
+        [Route("roomReservations")]
         [ResponseType(typeof(RoomReservations))]
-        public IHttpActionResult PostPlace(Place place)
+        public IHttpActionResult PostPlace(RoomReservations roomReservations)
         {
             if (!ModelState.IsValid)
             {
@@ -78,7 +76,7 @@ namespace BookingApp.Controllers
 
             try
             {
-                db.AppPlaces.Add(place);
+                db.AppRoomReservations.Add(roomReservations);
 
                 db.SaveChanges();
             }
@@ -88,8 +86,7 @@ namespace BookingApp.Controllers
                 throw;
             }
 
-            return CreatedAtRoute("PlaceApi", new { id = place.Id }, place);
+            return CreatedAtRoute("RoomReservationApi", new { id = roomReservations.Id }, roomReservations);
         }
-
     }
 }
