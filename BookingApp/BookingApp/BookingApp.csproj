@@ -267,6 +267,7 @@
     <Compile Include="Controllers\AccommodationController.cs" />
     <Compile Include="Controllers\AccommodationTypeController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AppUserController.cs" />
     <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\CountryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -313,6 +314,14 @@
     <Compile Include="Migrations\201706061830315_MigrationEight.cs" />
     <Compile Include="Migrations\201706061830315_MigrationEight.Designer.cs">
       <DependentUpon>201706061830315_MigrationEight.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706090940272_MigrationNine.cs" />
+    <Compile Include="Migrations\201706090940272_MigrationNine.Designer.cs">
+      <DependentUpon>201706090940272_MigrationNine.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706092119440_MigrationEleven.cs" />
+    <Compile Include="Migrations\201706092119440_MigrationEleven.Designer.cs">
+      <DependentUpon>201706092119440_MigrationEleven.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Accommodation.cs" />
@@ -435,6 +444,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706061830315_MigrationEight.resx">
       <DependentUpon>201706061830315_MigrationEight.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706090940272_MigrationNine.resx">
+      <DependentUpon>201706090940272_MigrationNine.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706092119440_MigrationEleven.resx">
+      <DependentUpon>201706092119440_MigrationEleven.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -10,7 +10,9 @@ namespace BookingApp.Models
     {
       
         public int Id { get; set; }
-        public int FullName { get; set; }
+        public string FullName { get; set; }
+
+        public string UserName { get; set; }
 
         public List<RoomReservations> RoomReservations { get; set; }
 

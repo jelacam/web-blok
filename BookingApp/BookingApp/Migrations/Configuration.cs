@@ -61,11 +61,25 @@ namespace BookingApp.Migrations
             var userStore = new UserStore<BAIdentityUser>(context);
             var userManager = new UserManager<BAIdentityUser>(userStore);
 
-            if (!context.Users.Any(u => u.UserName == "admin"))
+            if (!context.Users.Any(u => u.UserName == "adminn"))
             {
-                var user = new BAIdentityUser() { Id = "admin", UserName = "admin", Email = "admin@yahoo.com", PasswordHash = BAIdentityUser.HashPassword("admin")};
+                var user = new BAIdentityUser() { Id = "adminn", UserName = "adminn", Email = "admin@yahoo.com", PasswordHash = BAIdentityUser.HashPassword("adminn")};
                 userManager.Create(user);
                 userManager.AddToRole(user.Id, "Admin");
+            }
+
+            if (!context.Users.Any(u => u.UserName == "maki"))
+            {
+                var user = new BAIdentityUser() { Id = "maki", UserName = "maki", Email = "maki@yahoo.com", PasswordHash = BAIdentityUser.HashPassword("maki") };
+                userManager.Create(user);
+                userManager.AddToRole(user.Id, "Admin");
+            }
+
+            if (!context.Users.Any(u => u.UserName == "dukica"))
+            {
+                var user = new BAIdentityUser() { Id = "dukica", UserName = "dukica", Email = "dukica@yahoo.com", PasswordHash = BAIdentityUser.HashPassword("dukica") };
+                userManager.Create(user);
+                userManager.AddToRole(user.Id, "Manager"); 
             }
         }
     }
