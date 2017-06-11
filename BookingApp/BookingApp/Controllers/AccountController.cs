@@ -328,7 +328,7 @@ namespace BookingApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = new BAIdentityUser() { UserName = model.Email, Email = model.Email };
+            var user = new BAIdentityUser() { UserName = model.Email, Email = model.Email, Id = model.Email  };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 

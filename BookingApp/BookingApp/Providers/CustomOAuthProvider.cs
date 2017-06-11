@@ -42,27 +42,30 @@ namespace BookingApp.Providers
             }
 
 
-            //bool isAdmin = await userManager.IsInRoleAsync(user.UserName, "Admin");
+            bool isAdmin = await userManager.IsInRoleAsync(user.UserName, "Admin");
 
-            //if (isAdmin)
-            //{
-            //    context.OwinContext.Response.Headers.Add("Role", new[] { "Admin" });
-            //}
-            //else
-            //{
-            //    bool isManager = await userManager.IsInRoleAsync(user.UserName, "Manager");
-            //    if (isManager)
-            //    {
-            //        context.OwinContext.Response.Headers.Add("Role", new[] { "Manager" });
-            //    }
-            //    else
-            //    {
-            //        context.OwinContext.Response.Headers.Add("Role", new[] { "User" });
-            //    }
-            //}
+            if (isAdmin)
+            {
+                context.OwinContext.Response.Headers.Add("Role", new[] { "Admin" });
+            }
+            else
+            {
+                bool isManager = await userManager.IsInRoleAsync(user.UserName, "Manager");
+                if (isManager)
+                {
+                    context.OwinContext.Response.Headers.Add("Role", new[] { "Manager" });
+                }
+                else
+                {
+                    context.OwinContext.Response.Headers.Add("Role", new[] { "User" });
+                }
+            }
+
+
+            context.OwinContext.Response.Headers.Add("Access-Control-Expose-Headers", new[] { "Role" });
 
             //if (!user.EmailConfirmed)
-            //{
+            //{  
             //    context.SetError("invalid_grant", "AppUser did not confirm email.");
             //    return;
             //}
