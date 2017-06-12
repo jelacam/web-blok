@@ -104,6 +104,24 @@ namespace BookingApp.Migrations
                             new Country { Id = 2, Name = "Bosna i Hercegovina", Code = "BiH" },
                             new Country { Id = 3, Name = "Makedonija", Code = "MKD" }
                      );
+
+            // dodavanje regiona
+
+            context.AppRegions.AddOrUpdate(
+                        p => p.Id,
+                             new Region { Id = 1, Name = "Vojvodina", CountryId = 1 },
+                             new Region { Id = 2, Name = "Juzna Srbija", CountryId = 1},
+                             new Region { Id = 3, Name = "Zapadna Bosna", CountryId = 2},
+                             new Region { Id = 4, Name = "Centralna Makedonija", CountryId = 3},
+                             new Region { Id = 5, Name = "Istocna Makedonija", CountryId = 3 }
+                );
+
+            // dodavanje drzava 
+            context.AppPlaces.AddOrUpdate(
+                        p => p.Id,
+                             new Place { Id = 1, Name = "Novi Sad", RegionId = 1},
+                             new Place { Id = 2, Name = "Beograd", RegionId = 2}
+                );
         }
     }
 }
