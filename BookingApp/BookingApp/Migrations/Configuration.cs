@@ -96,6 +96,14 @@ namespace BookingApp.Migrations
                 userManager.Create(user);
                 userManager.AddToRole(user.Id, "Manager");
             }
+
+            //dodavanje drzava
+            context.AppCountries.AddOrUpdate(
+                       p => p.Id,
+                            new Country { Id = 1, Name = "Srbija", Code = "RS" },
+                            new Country { Id = 2, Name = "Bosna i Hercegovina", Code = "BiH" },
+                            new Country { Id = 3, Name = "Makedonija", Code = "MKD" }
+                     );
         }
     }
 }
