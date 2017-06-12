@@ -16,6 +16,7 @@ using Microsoft.Owin.Security.OAuth;
 using BookingApp.Models;
 using BookingApp.Providers;
 using BookingApp.Results;
+using System.Linq;
 
 namespace BookingApp.Controllers
 {
@@ -328,7 +329,21 @@ namespace BookingApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = new BAIdentityUser() { UserName = model.Email, Email = model.Email, Id = model.Email  };
+            
+            BAContext db = new BAContext();
+
+            db.AppUsers.Add(new AppUser() { UserName = model.Username, FullName = model.Name + " " + model.Surname });
+
+            db.SaveChanges();
+
+            var appUser = db.AppUsers.FirstOrDefault(p => p.UserName == model.Username);
+
+            if (appUser == null)
+            {
+                return NotFound();
+            }
+
+            var user = new BAIdentityUser() { UserName = model.Username, Email = model.Email, Id = model.Username, appUserId = appUser.Id  };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 

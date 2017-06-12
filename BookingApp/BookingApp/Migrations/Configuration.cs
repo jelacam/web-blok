@@ -4,8 +4,6 @@ namespace BookingApp.Migrations
 {
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
-    using System;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
@@ -20,7 +18,7 @@ namespace BookingApp.Migrations
         {
             //  This method will be called after migrating to the latest version.
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
+            //  You can use the DbSet<T>.AddOrUpdate() helper extension method
             //  to avoid creating duplicate seed data. E.g.
             //
             //    context.People.AddOrUpdate(
@@ -61,25 +59,42 @@ namespace BookingApp.Migrations
             var userStore = new UserStore<BAIdentityUser>(context);
             var userManager = new UserManager<BAIdentityUser>(userStore);
 
+
+            context.AppUsers.AddOrUpdate(
+                       p => p.Id,
+                            new AppUser { Id = 1, UserName = "adminn", FullName = "adminn" },
+                            new AppUser { Id = 2, UserName = "maki", FullName = "maki" },
+                            new AppUser { Id = 3, UserName = "dukica", FullName = "dukica" }
+                     );
+
+
+
+
             if (!context.Users.Any(u => u.UserName == "adminn"))
             {
-                var user = new BAIdentityUser() { Id = "adminn", UserName = "adminn", Email = "admin@yahoo.com", PasswordHash = BAIdentityUser.HashPassword("adminn")};
+                var appUser = context.AppUsers.FirstOrDefault(p => p.FullName == "adminn");
+
+                var user = new BAIdentityUser() { Id = "adminn", UserName = "adminn", Email = "admin@yahoo.com", PasswordHash = BAIdentityUser.HashPassword("adminn"), appUserId = 1 };
                 userManager.Create(user);
                 userManager.AddToRole(user.Id, "Admin");
             }
 
             if (!context.Users.Any(u => u.UserName == "maki"))
             {
-                var user = new BAIdentityUser() { Id = "maki", UserName = "maki", Email = "maki@yahoo.com", PasswordHash = BAIdentityUser.HashPassword("maki") };
+                var appUser = context.AppUsers.FirstOrDefault(p => p.FullName == "maki");
+
+                var user = new BAIdentityUser() { Id = "maki", UserName = "maki", Email = "maki@yahoo.com", PasswordHash = BAIdentityUser.HashPassword("maki"), appUserId = 2 };
                 userManager.Create(user);
                 userManager.AddToRole(user.Id, "Admin");
             }
 
             if (!context.Users.Any(u => u.UserName == "dukica"))
             {
-                var user = new BAIdentityUser() { Id = "dukica", UserName = "dukica", Email = "dukica@yahoo.com", PasswordHash = BAIdentityUser.HashPassword("dukica") };
+                var appUser = context.AppUsers.FirstOrDefault(p => p.FullName == "dukica");
+
+                var user = new BAIdentityUser() { Id = "dukica", UserName = "dukica", Email = "dukica@yahoo.com", PasswordHash = BAIdentityUser.HashPassword("dukica"), appUserId = 3 };
                 userManager.Create(user);
-                userManager.AddToRole(user.Id, "Manager"); 
+                userManager.AddToRole(user.Id, "Manager");
             }
         }
     }

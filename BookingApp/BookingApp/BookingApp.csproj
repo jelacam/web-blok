@@ -323,6 +323,10 @@
     <Compile Include="Migrations\201706092119440_MigrationEleven.Designer.cs">
       <DependentUpon>201706092119440_MigrationEleven.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706112008342_AppUserMigration.cs" />
+    <Compile Include="Migrations\201706112008342_AppUserMigration.Designer.cs">
+      <DependentUpon>201706112008342_AppUserMigration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Accommodation.cs" />
     <Compile Include="Models\AccommodationType.cs" />
@@ -450,6 +454,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706092119440_MigrationEleven.resx">
       <DependentUpon>201706092119440_MigrationEleven.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706112008342_AppUserMigration.resx">
+      <DependentUpon>201706112008342_AppUserMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
