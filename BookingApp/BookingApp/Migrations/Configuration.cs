@@ -122,6 +122,27 @@ namespace BookingApp.Migrations
                              new Place { Id = 1, Name = "Novi Sad", RegionId = 1},
                              new Place { Id = 2, Name = "Beograd", RegionId = 2}
                 );
+
+            // dodavanje smestaja 
+
+            context.AppAccommodationTypes.AddOrUpdate(
+                        p => p.Id,
+                            new AccommodationType { Id = 1, Name = "Hotel" }
+                );
+
+            context.AppAccommodations.AddOrUpdate(
+                        p => p.Id,
+                               new Accommodation { Id = 1, Name = "Golden Park", AccommodationTypeId = 1, Approved = true,
+                                                    Description = "Hotel u centru Budimpeste", Address="Adresa 122",
+                                                    AverageGrade = 4, Latitude = 30, Longitute = 29, ImageURL = "/assets/images/download.jpg",
+                                                    PlaceId = 1, AppUserId = 1
+                               } 
+                );
+
+            //context.AppRooms.AddOrUpdate(
+            //            p => p.Id,
+                            
+            //    );
         }
     }
 }

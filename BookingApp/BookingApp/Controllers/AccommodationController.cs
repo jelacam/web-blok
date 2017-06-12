@@ -30,6 +30,24 @@ namespace BookingApp.Controllers
             return Ok(accommodations);
         }
 
+        [HttpGet]
+        [Route("accommodation/{id}")]
+        public IHttpActionResult GetAccommodations(int id)
+        {
+            BAContext db = new BAContext();
+
+
+            Accommodation acmd = db.AppAccommodations.Find(id);
+
+            if (acmd == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(acmd);
+        }
+
+
         [HttpPut]
         [Route("accommodations/{id}")]
         public IHttpActionResult PutAccommodation(int id, Accommodation accommodation)
