@@ -37,8 +37,16 @@ namespace BookingApp.Controllers
         {
             BAContext db = new BAContext();
 
-            var rooms = db.AppRooms.Where(p => p.AccommodationId == id).FirstOrDefault();
+            List<Room> rooms = new List<Room>(10);
 
+            foreach (var room in db.AppRooms)
+            {
+                if (room.AccommodationId == id)
+                {
+                    rooms.Add(room);
+                }
+            }
+ 
             if (rooms == null)
             {
                 return NotFound();
