@@ -11,12 +11,12 @@ namespace BookingApp.Models
     {
         [Key]
         public int Id { get; set; }
-        public DateTime StartDate { get; set; }
+        public string StartDate { get; set; }
 
-        public DateTime EndDate { get; set; }
+        public string EndDate { get; set; }
 
-        //[Timestamp]
-        public DateTime Timestamp { get; set; }
+        [Timestamp]
+        public Byte[] Timestamp { get; set; }
 
         [ForeignKey("Room")]
         public int RoomId { get; set; }
