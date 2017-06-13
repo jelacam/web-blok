@@ -59,16 +59,12 @@ namespace BookingApp.Migrations
             var userStore = new UserStore<BAIdentityUser>(context);
             var userManager = new UserManager<BAIdentityUser>(userStore);
 
-
             context.AppUsers.AddOrUpdate(
                        p => p.Id,
                             new AppUser { Id = 1, UserName = "adminn", FullName = "adminn" },
                             new AppUser { Id = 2, UserName = "maki", FullName = "maki" },
                             new AppUser { Id = 3, UserName = "dukica", FullName = "dukica" }
                      );
-
-
-
 
             if (!context.Users.Any(u => u.UserName == "adminn"))
             {
@@ -110,24 +106,24 @@ namespace BookingApp.Migrations
             context.AppRegions.AddOrUpdate(
                         p => p.Id,
                              new Region { Id = 1, Name = "Vojvodina", CountryId = 1 },
-                             new Region { Id = 2, Name = "Juzna Srbija", CountryId = 1},
-                             new Region { Id = 3, Name = "Zapadna Bosna", CountryId = 2},
-                             new Region { Id = 4, Name = "Centralna Makedonija", CountryId = 3},
+                             new Region { Id = 2, Name = "Juzna Srbija", CountryId = 1 },
+                             new Region { Id = 3, Name = "Zapadna Bosna", CountryId = 2 },
+                             new Region { Id = 4, Name = "Centralna Makedonija", CountryId = 3 },
                              new Region { Id = 5, Name = "Istocna Makedonija", CountryId = 3 }
                 );
 
-            // dodavanje drzava 
+            // dodavanje drzava
             context.AppPlaces.AddOrUpdate(
                         p => p.Id,
-                             new Place { Id = 1, Name = "Novi Sad", RegionId = 1},
-                             new Place { Id = 2, Name = "Beograd", RegionId = 2},
-                             new Place { Id = 1, Name = "Nis", RegionId = 2 },
-                             new Place { Id = 1, Name = "Skopje", RegionId = 4 },
-                             new Place { Id = 1, Name = "Berovo", RegionId = 5 },
-                             new Place { Id = 1, Name = "Sarajevo", RegionId = 3 }
+                             new Place { Id = 1, Name = "Novi Sad", RegionId = 1 },
+                             new Place { Id = 2, Name = "Beograd", RegionId = 2 },
+                             new Place { Id = 3, Name = "Nis", RegionId = 2 },
+                             new Place { Id = 4, Name = "Skopje", RegionId = 4 },
+                             new Place { Id = 5, Name = "Berovo", RegionId = 5 },
+                             new Place { Id = 6, Name = "Sarajevo", RegionId = 3 }
                 );
 
-            // dodavanje smestaja 
+            // dodavanje smestaja
 
             context.AppAccommodationTypes.AddOrUpdate(
                         p => p.Id,
@@ -136,17 +132,54 @@ namespace BookingApp.Migrations
 
             context.AppAccommodations.AddOrUpdate(
                         p => p.Id,
-                               new Accommodation { Id = 1, Name = "Golden Park", AccommodationTypeId = 1, Approved = true,
-                                                    Description = "Hotel u centru Budimpeste", Address="Adresa 122",
-                                                    AverageGrade = 4, Latitude = 30, Longitute = 29, ImageURL = "/assets/images/download.jpg",
-                                                    PlaceId = 1, AppUserId = 1
-                               } 
+                               new Accommodation
+                               {
+                                   Id = 1,
+                                   Name = "Golden Park",
+                                   AccommodationTypeId = 1,
+                                   Approved = true,
+                                   Description = "Hotel u centru Budimpeste",
+                                   Address = "Adresa 122",
+                                   AverageGrade = 4,
+                                   Latitude = 30,
+                                   Longitute = 29,
+                                   ImageURL = "/assets/images/download.jpg",
+                                   PlaceId = 1,
+                                   AppUserId = 1
+                               }
                 );
 
-            //context.AppRooms.AddOrUpdate(
-            //            p => p.Id,
-                            
-            //    );
+            context.AppRooms.AddOrUpdate(
+                        p => p.Id,
+                            new Room
+                            {
+                                Id = 1,
+                                AccommodationId = 1,
+                                BedCount = 2,
+                                Description = "Soba se pogledom na plazu.",
+                                PricePerNight = 2500,
+                                RoomNumber = 123
+                            },
+                            new Room
+                            {
+                                Id = 2,
+                                AccommodationId = 1,
+                                BedCount = 1,
+                                Description = "Soba se pogledom na fontanu.",
+                                PricePerNight = 2500,
+                                RoomNumber = 202
+                            },
+                            new Room
+                            {
+                                Id = 3,
+                                AccommodationId = 1,
+                                BedCount = 2,
+                                Description = "Soba se pogledom na fontanu.",
+                                PricePerNight = 2500,
+                                RoomNumber = 201
+                            }
+
+                );
         }
     }
 }

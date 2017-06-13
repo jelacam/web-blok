@@ -31,6 +31,24 @@ namespace BookingApp.Controllers
 
         }
 
+        [HttpGet]
+        [Route("rooms/{id}")]
+        public IHttpActionResult GetRooms(int id)
+        {
+            BAContext db = new BAContext();
+
+            var rooms = db.AppRooms.Where(p => p.AccommodationId == id).FirstOrDefault();
+
+            if (rooms == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(rooms);
+
+        }
+
+
         [HttpPut]
         [Route("rooms/{id}")]
         public IHttpActionResult PutRoom(int id, Room room)
