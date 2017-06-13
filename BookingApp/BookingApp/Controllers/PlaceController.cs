@@ -76,19 +76,27 @@ namespace BookingApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            try
+            bool placeExists = false;
+            foreach (var item in db.AppRegions)
+            {
+                if (item.Name.Equals(place.Name) && item.Id.Equals(place.RegionId))
+                {
+                    placeExists = true;
+                    break;
+                }
+            }
+
+            if (placeExists == false)
             {
                 db.AppPlaces.Add(place);
-
                 db.SaveChanges();
+
+                return CreatedAtRoute("CountryApi", new { id = place.Id }, place);
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-
-                throw;
+                return BadRequest();
             }
-
-            return CreatedAtRoute("PlaceApi", new { id = place.Id }, place);
         }
 
     }
