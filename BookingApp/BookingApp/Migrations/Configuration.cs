@@ -120,7 +120,11 @@ namespace BookingApp.Migrations
             context.AppPlaces.AddOrUpdate(
                         p => p.Id,
                              new Place { Id = 1, Name = "Novi Sad", RegionId = 1},
-                             new Place { Id = 2, Name = "Beograd", RegionId = 2}
+                             new Place { Id = 2, Name = "Beograd", RegionId = 2},
+                             new Place { Id = 1, Name = "Nis", RegionId = 2 },
+                             new Place { Id = 1, Name = "Skopje", RegionId = 4 },
+                             new Place { Id = 1, Name = "Berovo", RegionId = 5 },
+                             new Place { Id = 1, Name = "Sarajevo", RegionId = 3 }
                 );
         }
     }
