@@ -62,7 +62,7 @@ namespace BookingApp.Controllers
                 }
             }
 
-            return CreatedAtRoute("CountryApi", new { id = country.Id }, country);
+            return Ok(country);
         }
 
         [HttpDelete]
