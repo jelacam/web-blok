@@ -66,6 +66,52 @@ namespace BookingApp.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        [HttpDelete]
+        [Route("places/{id}")]
+        public IHttpActionResult DeleteRegion(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            Place place = new Place();
+
+            foreach (var item in db.AppPlaces)
+            {
+                if (id == item.Id)
+                {
+                    place = item;
+                    break;
+                }
+            }
+
+            if (place == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            db.AppPlaces.Remove(place);
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (db.AppPlaces.Find(id) == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
         [HttpPost]
         [Route("places")]
         [ResponseType(typeof(RoomReservations))]
