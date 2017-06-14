@@ -67,16 +67,27 @@ namespace BookingApp.Controllers
 
         [HttpDelete]
         [Route("countries/{id}")]
-        public IHttpActionResult DeleteCountry(int id, Country country)
+        public IHttpActionResult DeleteCountry(int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != country.Id)
+            Country country = new Country();
+
+            foreach (var item in db.AppCountries)
             {
-                return BadRequest("Ids are not matching!");
+                if(id == item.Id)
+                {
+                    country = item;
+                    break;
+                }
+            }
+
+            if(country == null)
+            {
+                return  BadRequest(ModelState);
             }
 
             db.AppCountries.Remove(country);
