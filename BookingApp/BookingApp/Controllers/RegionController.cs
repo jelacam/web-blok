@@ -58,6 +58,52 @@ namespace BookingApp.Controllers
                 }
             }
 
+            return Ok(region);
+        }
+
+        [HttpDelete]
+        [Route("regions/{id}")]
+        public IHttpActionResult DeleteRegion(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            Region region  = new Region();
+
+            foreach (var item in db.AppRegions)
+            {
+                if (id == item.Id)
+                {
+                    region = item;
+                    break;
+                }
+            }
+
+            if (region == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            db.AppRegions.Remove(region);
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (db.AppRegions.Find(id) == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
             return StatusCode(HttpStatusCode.NoContent);
         }
 
