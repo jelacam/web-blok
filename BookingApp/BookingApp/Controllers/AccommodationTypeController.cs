@@ -65,6 +65,52 @@ namespace BookingApp.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        [HttpDelete]
+        [Route("acctypes/{id}")]
+        public IHttpActionResult DeleteRegion(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            AccommodationType acctype = new AccommodationType();
+
+            foreach (var item in db.AppAccommodationTypes)
+            {
+                if (id == item.Id)
+                {
+                    acctype = item;
+                    break;
+                }
+            }
+
+            if (acctype == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            db.AppAccommodationTypes.Remove(acctype);
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (db.AppAccommodationTypes.Find(id) == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
         [HttpPost]
         [Route("acctypes")]
         [ResponseType(typeof(AccommodationType))]
