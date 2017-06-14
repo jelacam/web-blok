@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -21,6 +22,33 @@ namespace BookingApp.Controllers
         public IHttpActionResult GetRooms()
         {
             DbSet<Room> rooms = db.AppRooms;
+            //List<Room> ret = new List<Room>();
+
+            //foreach(var reservation in db.AppRoomReservations)
+            //{
+            //    foreach (var room in rooms)
+            //    {
+            //        if (room.Id != reservation.RoomId)
+            //        {
+            //            ret.Add(room);
+            //        }
+            //        else
+            //        {
+
+            //            string date = reservation.EndDate.Split('T')[0];
+            //            DateTime endDate = DateTime.ParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+            //            DateTime today = DateTime.Now;
+
+            //            if (endDate < today)
+            //            {
+            //                ret.Add(room);
+            //            }
+            //        }
+            //    }
+
+               
+            //}
 
             if (rooms == null)
             {

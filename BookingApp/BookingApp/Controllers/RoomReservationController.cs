@@ -127,11 +127,38 @@ namespace BookingApp.Controllers
                             return BadRequest(ModelState);
                         }
 
-                        RoomReservations existingReservation = context.AppRoomReservations.Where(p => p.StartDate.Equals(roomReservations.StartDate) &&
-                                                          p.EndDate.Equals(roomReservations.EndDate) &&
-                                                          p.RoomId == roomReservations.RoomId).FirstOrDefault();
+                        //RoomReservations existingReservation = context.AppRoomReservations.Where(p => p.StartDate.Equals(roomReservations.StartDate) &&
+                        //                                  p.EndDate.Equals(roomReservations.EndDate) &&
+                        //                                  p.RoomId == roomReservations.RoomId).FirstOrDefault();
 
-                        if (existingReservation != null)
+                        bool existingReservation = false ;
+
+                        foreach (var reservation in context.AppRoomReservations)
+                        {
+                            if (reservation.RoomId == roomReservations.RoomId)
+                            {
+                                string date = reservation.EndDate.Split('T')[0];
+                                DateTime endDate = DateTime.ParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+                                date = reservation.StartDate.Split('T')[0];
+                                DateTime startDate = DateTime.ParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+                                DateTime currentEndDate = DateTime.ParseExact(roomReservations.EndDate.Split('T')[0],
+                                                                               "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+                                DateTime currentStartDate = DateTime.ParseExact(roomReservations.StartDate.Split('T')[0],
+                                                                              "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+
+                                if (currentStartDate >= startDate && currentStartDate <= endDate)
+                                {
+                                    existingReservation = true;
+                                }
+                            }
+                        }
+
+
+                        if (existingReservation)
                         {
                             return BadRequest("Reservation exists");
                         }

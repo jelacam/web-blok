@@ -123,6 +123,8 @@ namespace BookingApp.Migrations
                              new Place { Id = 6, Name = "Sarajevo", RegionId = 3 }
                 );
 
+           
+
             // dodavanje smestaja
 
             context.AppAccommodationTypes.AddOrUpdate(

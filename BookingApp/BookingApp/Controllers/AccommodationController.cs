@@ -6,6 +6,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 
@@ -117,6 +118,29 @@ namespace BookingApp.Controllers
             {
                 return BadRequest();
             }
+        }
+
+        [HttpPost]
+        [Route("upload")]
+        public HttpResponseMessage UploadJsonFile()
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+
+            var abc = Request.Properties.Values;
+            var httpRequser = HttpContext.Current.Request;
+            var fileCount = httpRequser.Files.Count;
+
+            if (fileCount > 0)
+            {
+                for (int i=0; i< fileCount; i++)
+                {
+                    var postedFile = httpRequser.Files[i];
+                    var filePath = HttpContext.Current.Server.MapPath("~/UploadFile/" + postedFile.FileName);
+                    postedFile.SaveAs(filePath);
+                }
+            }
+
+            return response;
         }
 
     }
