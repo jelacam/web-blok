@@ -65,6 +65,41 @@ namespace BookingApp.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        [HttpDelete]
+        [Route("countries/{id}")]
+        public IHttpActionResult DeleteCountry(int id, Country country)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (id != country.Id)
+            {
+                return BadRequest("Ids are not matching!");
+            }
+
+            db.AppCountries.Remove(country);
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (db.AppCountries.Find(id) == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
         [HttpPost]
         [Route("countries")]
         [ResponseType(typeof(Country))]
