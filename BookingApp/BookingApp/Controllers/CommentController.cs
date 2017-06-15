@@ -86,9 +86,34 @@ namespace BookingApp.Controllers
                 }
             }
 
+
+
             if (commentExists == false)
             {
+                
+
+                var accommodation = db.AppAccommodations.Find(comment.AccommodationId);
+
+                if (accommodation != null)
+                {
+                    db.AppAccommodations.Attach(accommodation);
+                    int commentCount = 1;
+                    if (accommodation.Comment != null)
+                    {
+                        commentCount += accommodation.Comment.Count;
+                    }
+                    
+
+                    accommodation.AverageGrade = (accommodation.AverageGrade + comment.Grade) / commentCount;
+                    
+                }
+                else
+                {
+                    return NotFound();
+                }
+
                 db.AppComments.Add(comment);
+                db.Entry(accommodation).State = EntityState.Modified;
                 db.SaveChanges();
 
                 return CreatedAtRoute("CountryApi", new { id = comment.Id }, comment);
@@ -97,6 +122,41 @@ namespace BookingApp.Controllers
             {
                 return BadRequest();
             }
+
+        }
+
+
+        [HttpGet]
+        [Route("comments/{accomId}")]
+        public IHttpActionResult GetAccomComments(int accomId)
+        {
+
+            DbSet<Comment> comments = db.AppComments;
+            List<Comment> accomComments = new List<Comment>(10);
+
+            if (comments == null)
+            {
+                return NotFound();
+            }
+
+            foreach(var comment in comments)
+            {
+                if (comment.AccommodationId == accomId)
+                {
+                    accomComments.Add(comment);
+                }
+            }
+
+            if (accomComments.Count > 0)
+            {
+                return Ok(accomComments);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+            
 
         }
     }
