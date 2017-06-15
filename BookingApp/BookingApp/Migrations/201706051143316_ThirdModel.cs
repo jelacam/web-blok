@@ -26,7 +26,7 @@ namespace BookingApp.Migrations
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AccommodationTypes", t => t.AccommodationTypeId, cascadeDelete: false)
-                .ForeignKey("dbo.AppUsers", t => t.AppUserId, cascadeDelete: false)
+                .ForeignKey("dbo.AppUsers", t => t.AppUserId, cascadeDelete: false) 
                 .ForeignKey("dbo.Places", t => t.PlaceId, cascadeDelete: false)
                 .Index(t => t.PlaceId)
                 .Index(t => t.AccommodationTypeId)
@@ -52,8 +52,8 @@ namespace BookingApp.Migrations
                         AppUserId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Accommodations", t => t.AccommodationId, cascadeDelete: true)
-                .ForeignKey("dbo.AppUsers", t => t.AppUserId, cascadeDelete: true)
+                .ForeignKey("dbo.Accommodations", t => t.AccommodationId, cascadeDelete: false) //treba false
+                .ForeignKey("dbo.AppUsers", t => t.AppUserId, cascadeDelete: false) //treba false
                 .Index(t => t.AccommodationId)
                 .Index(t => t.AppUserId);
             
@@ -69,8 +69,8 @@ namespace BookingApp.Migrations
                         AppUserId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.AppUsers", t => t.AppUserId, cascadeDelete: true)
-                .ForeignKey("dbo.Rooms", t => t.RoomId, cascadeDelete: true)
+                .ForeignKey("dbo.AppUsers", t => t.AppUserId, cascadeDelete: false) //treba false
+                .ForeignKey("dbo.Rooms", t => t.RoomId, cascadeDelete: false) //treba false
                 .Index(t => t.RoomId)
                 .Index(t => t.AppUserId);
             
@@ -86,7 +86,7 @@ namespace BookingApp.Migrations
                         AccommodationId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Accommodations", t => t.AccommodationId, cascadeDelete: true)
+                .ForeignKey("dbo.Accommodations", t => t.AccommodationId, cascadeDelete: false) //treba false
                 .Index(t => t.AccommodationId);
             
         }

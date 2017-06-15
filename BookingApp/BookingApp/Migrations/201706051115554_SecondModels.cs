@@ -26,7 +26,7 @@ namespace BookingApp.Migrations
                         CountryId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Countries", t => t.CountryId, cascadeDelete: false)
+                .ForeignKey("dbo.Countries", t => t.CountryId, cascadeDelete: true) //treba true
                 .Index(t => t.CountryId);
             
             CreateTable(
@@ -38,7 +38,7 @@ namespace BookingApp.Migrations
                         RegionId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Regions", t => t.RegionId, cascadeDelete: false)
+                .ForeignKey("dbo.Regions", t => t.RegionId, cascadeDelete: true) //treba true
                 .Index(t => t.RegionId);
             
         }
