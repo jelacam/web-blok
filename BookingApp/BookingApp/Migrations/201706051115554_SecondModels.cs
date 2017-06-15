@@ -40,6 +40,7 @@ namespace BookingApp.Migrations
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Regions", t => t.RegionId, cascadeDelete: true) //treba true
                 .Index(t => t.RegionId);
+
             
         }
         
@@ -52,6 +53,8 @@ namespace BookingApp.Migrations
             DropTable("dbo.Places");
             DropTable("dbo.Regions");
             DropTable("dbo.Countries");
+
+            
         }
     }
 }
