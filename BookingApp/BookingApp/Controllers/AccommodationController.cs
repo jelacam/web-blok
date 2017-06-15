@@ -124,6 +124,9 @@ namespace BookingApp.Controllers
         [Route("upload")]
         public HttpResponseMessage UploadJsonFile()
         {
+            //string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/UploadFile";
+            //String RelativePath = "~/" + path.Replace(HttpContext.Current.Request.PhysicalApplicationPath, String.Empty);
+
             HttpResponseMessage response = new HttpResponseMessage();
 
             var abc = Request.Properties.Values;
@@ -135,7 +138,7 @@ namespace BookingApp.Controllers
                 for (int i=0; i< fileCount; i++)
                 {
                     var postedFile = httpRequser.Files[i];
-                    var filePath = HttpContext.Current.Server.MapPath("~/UploadFile/" + postedFile.FileName);
+                    var filePath = HttpContext.Current.Server.MapPath("~/Content/" + postedFile.FileName);
                     postedFile.SaveAs(filePath);
                 }
             }
