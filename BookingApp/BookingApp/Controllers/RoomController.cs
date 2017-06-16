@@ -121,6 +121,53 @@ namespace BookingApp.Controllers
         }
 
         [Authorize(Roles = "Manager")]
+        [HttpDelete]
+        [Route("rooms/{id}")]
+        public IHttpActionResult DeleteRoom(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            Room room = new Room();
+
+            foreach (var item in db.AppRooms)
+            {
+                if (id == item.Id)
+                {
+                    room = item;
+                    break;
+                }
+            }
+
+            if (room == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            db.AppRooms.Remove(room);
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (db.AppRooms.Find(id) == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        [Authorize(Roles = "Manager")]
         [HttpPost]
         [Route("rooms")]
         [ResponseType(typeof(Room))]
