@@ -16,6 +16,7 @@ namespace BookingApp.Controllers
     {
         private BAContext db = new BAContext();
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("countries", Name = "CountryApi")]
         public IHttpActionResult GetCountries()
@@ -30,6 +31,7 @@ namespace BookingApp.Controllers
             return Ok(countries);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         [Route("countries/{id}")]
         public IHttpActionResult PutCountry(int id, Country country)
@@ -65,6 +67,7 @@ namespace BookingApp.Controllers
             return Ok(country);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete]
         [Route("countries/{id}")]
         public IHttpActionResult DeleteCountry(int id)
@@ -111,6 +114,7 @@ namespace BookingApp.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("countries")]
         [ResponseType(typeof(Country))]

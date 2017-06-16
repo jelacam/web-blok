@@ -84,7 +84,7 @@ namespace BookingApp.Controllers
 
         }
 
-
+        [Authorize(Roles = "Manager")]
         [HttpPut]
         [Route("rooms/{id}")]
         public IHttpActionResult PutRoom(int id, Room room)
@@ -120,6 +120,7 @@ namespace BookingApp.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpPost]
         [Route("rooms")]
         [ResponseType(typeof(Room))]

@@ -11,11 +11,13 @@ using System.Web.Http.Description;
 
 namespace BookingApp.Controllers
 {
+    
     [RoutePrefix("api/comment")]
     public class CommentController : ApiController
     {
         private BAContext db = new BAContext();
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("comments", Name = "CommentApi")]
         public IHttpActionResult GetComment()
@@ -30,6 +32,7 @@ namespace BookingApp.Controllers
             return Ok(comments);
         }
 
+        [Authorize]
         [HttpPut]
         [Route("comments/{id}")]
         public IHttpActionResult PutComment(int id, Comment comment)
@@ -65,6 +68,7 @@ namespace BookingApp.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        [Authorize]
         [HttpPost]
         [Route("comments")]
         [ResponseType(typeof(Comment))]
@@ -125,7 +129,7 @@ namespace BookingApp.Controllers
 
         }
 
-
+        [AllowAnonymous]
         [HttpGet]
         [Route("comments/{accomId}")]
         public IHttpActionResult GetAccomComments(int accomId)

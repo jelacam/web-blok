@@ -16,6 +16,7 @@ namespace BookingApp.Controllers
     {
         private BAContext db = new BAContext();
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("places", Name = "PlaceApi")]
         public IHttpActionResult GetPlaces()
@@ -31,6 +32,7 @@ namespace BookingApp.Controllers
      
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         [Route("places/{id}")]
         public IHttpActionResult PutPlace(int id, Place place)
@@ -66,6 +68,7 @@ namespace BookingApp.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete]
         [Route("places/{id}")]
         public IHttpActionResult DeleteRegion(int id)
@@ -112,6 +115,7 @@ namespace BookingApp.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        [Authorize(Roles ="Admin")]
         [HttpPost]
         [Route("places")]
         [ResponseType(typeof(RoomReservations))]

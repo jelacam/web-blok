@@ -10,6 +10,7 @@ using System.Web.Http.Description;
 
 namespace BookingApp.Controllers
 {
+    
     [RoutePrefix("api/RoomReservation")]
     public class RoomReservationController : ApiController
     {
@@ -29,6 +30,7 @@ namespace BookingApp.Controllers
 
             return Ok(roomReservations);
         }
+
 
         [HttpPut]
         [Route("roomReservations/{id}")]
@@ -65,6 +67,7 @@ namespace BookingApp.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("ReservationPass/{userName}/{accommodationId}")]
         public bool ResservationPass(string userName, int accommodationId)
@@ -111,6 +114,7 @@ namespace BookingApp.Controllers
             return false;
         }
 
+        [Authorize]
         [HttpPost]
         [Route("roomReservations")]
         [ResponseType(typeof(RoomReservations))]

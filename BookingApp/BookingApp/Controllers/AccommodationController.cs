@@ -17,6 +17,7 @@ namespace BookingApp.Controllers
     {
         private BAContext db = new BAContext();
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("accommodations", Name = "AccommodationApi")]
         public IHttpActionResult GetAccommodations()
@@ -31,6 +32,7 @@ namespace BookingApp.Controllers
             return Ok(accommodations);
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("accommodation/{id}")]
         public IHttpActionResult GetAccommodations(int id)
@@ -48,7 +50,7 @@ namespace BookingApp.Controllers
             return Ok(acmd);
         }
 
-
+        [Authorize(Roles = "Manager")]
         [HttpPut]
         [Route("accommodations/{id}")]
         public IHttpActionResult PutAccommodation(int id, Accommodation accommodation)
@@ -84,6 +86,7 @@ namespace BookingApp.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpPost]
         [Route("accommodations")]
         [ResponseType(typeof(Accommodation))]
@@ -120,6 +123,7 @@ namespace BookingApp.Controllers
             }
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpPost]
         [Route("upload")]
         public HttpResponseMessage UploadJsonFile()

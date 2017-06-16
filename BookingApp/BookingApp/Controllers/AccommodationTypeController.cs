@@ -16,6 +16,7 @@ namespace BookingApp.Controllers
     {
         private BAContext db = new BAContext();
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("acctypes", Name = "AccType")]
         public IHttpActionResult GetAccTypes()
@@ -30,6 +31,7 @@ namespace BookingApp.Controllers
             return Ok(acctypes);
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpPut]
         [Route("acctypes/{id}")]
         public IHttpActionResult PutAccType(int id, AccommodationType acctype)
@@ -65,6 +67,7 @@ namespace BookingApp.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpDelete]
         [Route("acctypes/{id}")]
         public IHttpActionResult DeleteRegion(int id)
@@ -111,6 +114,7 @@ namespace BookingApp.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpPost]
         [Route("acctypes")]
         [ResponseType(typeof(AccommodationType))]
