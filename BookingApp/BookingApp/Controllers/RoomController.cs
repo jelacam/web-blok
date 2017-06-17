@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http.OData;
 
 namespace BookingApp.Controllers
 {
@@ -17,9 +18,10 @@ namespace BookingApp.Controllers
     {
         private BAContext db = new BAContext();
 
+        [EnableQuery]
         [HttpGet]
         [Route("rooms", Name = "RoomApi")]
-        public IHttpActionResult GetRooms()
+        public IQueryable<Room> GetRooms()
         {
             DbSet<Room> rooms = db.AppRooms;
             //List<Room> ret = new List<Room>();
@@ -52,10 +54,10 @@ namespace BookingApp.Controllers
 
             if (rooms == null)
             {
-                return NotFound();
+                return null;
             }
 
-            return Ok(rooms);
+            return rooms;
 
         }
 

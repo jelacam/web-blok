@@ -9,27 +9,30 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http.OData;
 
 namespace BookingApp.Controllers
 {
+    
     [RoutePrefix("api/accommodation")]
     public class AccommodationController : ApiController
     {
         private BAContext db = new BAContext();
 
+        [EnableQuery]
         [AllowAnonymous]
         [HttpGet]
         [Route("accommodations", Name = "AccommodationApi")]
-        public IHttpActionResult GetAccommodations()
+        public IQueryable<Accommodation> GetAccommodations()
         {
             DbSet<Accommodation> accommodations = db.AppAccommodations;
 
             if (accommodations == null)
             {
-                return NotFound();
+                return null;
             }
 
-            return Ok(accommodations);
+            return accommodations;
         }
 
         [AllowAnonymous]
