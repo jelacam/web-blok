@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using BookingApp.Models;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
-using System.Timers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using BookingApp.Models;
+using System.Timers;
 
 namespace BookingApp.Hubs
 {
@@ -16,6 +15,7 @@ namespace BookingApp.Hubs
     {
         private static IHubContext hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
         private static Timer t = new Timer();
+        private static BAContext db = new BAContext();
 
         public void Hello()
         {
@@ -25,19 +25,20 @@ namespace BookingApp.Hubs
         public static void Notify(int clickCount)
         {
             //hubContext.Clients.Group("Admins").clickNotification($"Clicks: {clickCount}");
-
         }
 
-
         /// <summary>
-        ///     notifikacija admina da je kreiran smestaj 
+        ///     notifikacija admina da je kreiran smestaj
         /// </summary>
         /// <param name="id"></param>
         public static void SendNotification(Accommodation accommodation)
         {
+            //hubContext.Clients.Group("Admins").clickNotification(accommodation);
+            //List<Accommodation> accommodationToBeApproved = db.AppAccommodations.Where(p => p.Approved == false) as List<Accommodation>;
+
             hubContext.Clients.Group("Admins").clickNotification(accommodation);
         }
-
+    
         public void GetTime()
         {
             Clients.All.setRealTime(DateTime.Now.ToString("h:mm:ss tt"));
@@ -72,7 +73,6 @@ namespace BookingApp.Hubs
             }
         }
 
-
         public void UnsubscribeForNotification(string userId, string userRole)
         {
             if (userRole.Equals("Admin"))
@@ -96,8 +96,6 @@ namespace BookingApp.Hubs
             //{
             //    Groups.Add(Context.ConnectionId, "Admins");
             //}
-            
-
 
             return base.OnConnected();
         }

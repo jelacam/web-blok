@@ -24,14 +24,15 @@ namespace BookingApp.Controllers
         [Route("accommodations", Name = "AccommodationApi")]
         public IQueryable<Accommodation> GetAccommodations()
         {
-            DbSet<Accommodation> accommodations = db.AppAccommodations;
+            var accommodations = db.AppAccommodations.Where(p => p.Approved == true);
+
 
             if (accommodations == null)
             {
                 return null;
             }
 
-            return accommodations;
+            return accommodations as IQueryable<Accommodation>;
         }
 
         [AllowAnonymous]
