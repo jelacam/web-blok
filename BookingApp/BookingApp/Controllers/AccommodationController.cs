@@ -1,6 +1,4 @@
 ﻿using BookingApp.Models;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -18,6 +16,7 @@ namespace BookingApp.Controllers
     public class AccommodationController : ApiController
     {
         private BAContext db = new BAContext();
+        public static int ClickCount { get; set; }
 
         [EnableQuery]
         [AllowAnonymous]
@@ -41,7 +40,6 @@ namespace BookingApp.Controllers
         public IHttpActionResult GetAccommodations(int id)
         {
             BAContext db = new BAContext();
-
 
             Accommodation acmd = db.AppAccommodations.Find(id);
 
@@ -68,7 +66,23 @@ namespace BookingApp.Controllers
                 return BadRequest("Ids are not matching!");
             }
 
-            db.Entry(accommodation).State = EntityState.Modified;
+            var accommodationOld = db.AppAccommodations.Find(id);
+            accommodation.AverageGrade = accommodationOld.AverageGrade;
+
+            if (accommodation.ImageURL == null)
+            {
+                
+                accommodation.ImageURL = accommodationOld.ImageURL;
+            }
+
+            accommodationOld.AccommodationTypeId = accommodation.AccommodationTypeId;
+            accommodationOld.Address = accommodation.Address;
+            accommodationOld.Description = accommodation.Description;
+            accommodationOld.Latitude = accommodation.Latitude;
+            accommodationOld.Longitute = accommodation.Longitute;
+            accommodationOld.PlaceId = accommodation.PlaceId;
+            accommodationOld.Name = accommodation.Name;
+            //db.Entry(accommodation).State = EntityState.Modified;
 
             try
             {
@@ -103,20 +117,21 @@ namespace BookingApp.Controllers
             bool accommodationExists = false;
             foreach (var item in db.AppAccommodations)
             {
-                if(item.Name.Equals(accommodation.Name)
+                if (item.Name.Equals(accommodation.Name)
                     && item.Address.Equals(accommodation.Address)
                     && item.Place.Equals(accommodation.Place))
                 {
                     accommodationExists = true;
                     break;
                 }
-
             }
 
             if (accommodationExists == false)
             {
                 db.AppAccommodations.Add(accommodation);
                 db.SaveChanges();
+
+                Hubs.NotificationHub.SendNotification(accommodation.Id);
 
                 return CreatedAtRoute("AccommodationApi", new { id = accommodation.Id }, accommodation);
             }
@@ -142,7 +157,7 @@ namespace BookingApp.Controllers
 
             if (fileCount > 0)
             {
-                for (int i=0; i< fileCount; i++)
+                for (int i = 0; i < fileCount; i++)
                 {
                     var postedFile = httpRequser.Files[i];
                     var filePath = HttpContext.Current.Server.MapPath("~/Content/" + postedFile.FileName);
@@ -153,5 +168,23 @@ namespace BookingApp.Controllers
             return response;
         }
 
+        [Authorize(Roles = "Manager")]
+        [HttpDelete]
+        [Route("delete/{id}")]
+        public IHttpActionResult DeleteAccommodation(int id)
+        {
+            var accommodation = db.AppAccommodations.Find(id);
+
+            if (accommodation == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            db.AppAccommodations.Remove(accommodation);
+
+            db.SaveChanges();
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
     }
 }
