@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -32,6 +33,7 @@ namespace BookingApp.Models
         [ForeignKey("Place")]
         public int PlaceId { get; set; }
 
+        [JsonIgnore]
         public RoomReservations Place { get; set; }
 
         public List<Comment> Comment { get; set; }
@@ -39,6 +41,7 @@ namespace BookingApp.Models
         [ForeignKey("AccommodationType")]
         public int AccommodationTypeId { get; set; }
 
+        [JsonIgnore]
         public AccommodationType AccommodationType { get; set; }
 
         public List<Room> Room { get; set; }
@@ -46,6 +49,7 @@ namespace BookingApp.Models
         [ForeignKey("AppUser")]
         public int AppUserId { get; set; }
 
+        [JsonIgnore]
         public AppUser AppUser { get; set; }
     }
 }

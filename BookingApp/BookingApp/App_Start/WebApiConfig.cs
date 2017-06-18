@@ -9,6 +9,7 @@ using System.Web.Http.Cors;
 using System.Web.Http.OData.Builder;
 using BookingApp.Models;
 using System.Web.Http.OData.Extensions;
+using System.Net.Http.Headers;
 
 namespace BookingApp
 {
@@ -24,12 +25,6 @@ namespace BookingApp
             //var cors = new EnableCorsAttribute("http://localhost:4200", "*", "*");
             //config.EnableCors(cors);
 
-            //za odata
-
-            ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
-            builder.EntitySet<Accommodation>("AccommodationsPaging");
-            config.Routes.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
-            
 
             // Web API routes
             config.MapHttpAttributeRoutes();
@@ -39,8 +34,10 @@ namespace BookingApp
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-			
-			config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            config.Formatters.JsonFormatter.SupportedMediaTypes             // podrazumevano vrati Json rezultat umesto XML-a
+                             .Add(new MediaTypeHeaderValue("text/html"));
+
+            config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
         }
     }
 }

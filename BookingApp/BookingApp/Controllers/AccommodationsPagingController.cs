@@ -29,15 +29,14 @@ namespace BookingApp.Controllers
     builder.EntitySet<Room>("AppRooms"); 
     config.Routes.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
     */
-    [RoutePrefix("odata")]
+   
     public class AccommodationsPagingController : ODataController
     {
         private BAContext db = new BAContext();
 
         // GET: odata/AccommodationsPaging
         [EnableQuery]
-        [HttpGet]
-        [Route("AccommodationsPaging")]
+     
         public IQueryable<Accommodation> GetAccommodationsPaging()
         {
             DbSet<Accommodation> accommodations = db.AppAccommodations;
