@@ -27,7 +27,7 @@ namespace BookingApp
             //za odata
 
             ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
-            builder.EntitySet<Accommodation>("AccommodationsPaging");
+            builder.EntitySet<Accommodation>("AccommodationsPagingController");
             config.Routes.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
             
 
