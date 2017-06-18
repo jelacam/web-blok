@@ -119,7 +119,7 @@ namespace BookingApp.Controllers
             {
                 if (item.Name.Equals(accommodation.Name)
                     && item.Address.Equals(accommodation.Address)
-                    && item.Place.Equals(accommodation.Place))
+                    && item.PlaceId.Equals(accommodation.PlaceId))
                 {
                     accommodationExists = true;
                     break;
@@ -131,7 +131,7 @@ namespace BookingApp.Controllers
                 db.AppAccommodations.Add(accommodation);
                 db.SaveChanges();
 
-                Hubs.NotificationHub.SendNotification(accommodation.Id);
+                Hubs.NotificationHub.SendNotification(accommodation);
 
                 return CreatedAtRoute("AccommodationApi", new { id = accommodation.Id }, accommodation);
             }
