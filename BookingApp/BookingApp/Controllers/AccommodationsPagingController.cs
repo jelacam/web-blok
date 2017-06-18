@@ -37,7 +37,14 @@ namespace BookingApp.Controllers
         [EnableQuery]
         public IQueryable<Accommodation> GetAccommodationsPaging()
         {
-            return db.AppAccommodations;
+            DbSet<Accommodation> accommodations = db.AppAccommodations;
+
+            if (accommodations == null)
+            {
+                return null;
+            }
+
+            return accommodations;
         }
 
         // GET: odata/AccommodationsPaging(5)
