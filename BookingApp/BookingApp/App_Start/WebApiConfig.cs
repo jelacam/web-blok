@@ -26,6 +26,13 @@ namespace BookingApp
             //config.EnableCors(cors);
 
 
+            //za odata
+
+            //ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
+            //builder.EntitySet<Accommodation>("AccommodationsPagingController");
+            //config.Routes.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
+
+
             // Web API routes
             config.MapHttpAttributeRoutes();
 
