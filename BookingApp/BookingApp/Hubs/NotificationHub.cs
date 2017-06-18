@@ -59,24 +59,26 @@ namespace BookingApp.Hubs
             //Ako vam treba pojedinacni User
             //var identityName = Context.User.Identity.Name;
 
-            Groups.Add(Context.ConnectionId, "Admins");
+            //Groups.Add(Context.ConnectionId, "Admins");
 
-            //if (Context.User.IsInRole("Admin"))
-            //{
-            //    Groups.Add(Context.ConnectionId, "Admins");
-            //}
+            if (Context.User.IsInRole("Admin"))
+            {
+                Groups.Add(Context.ConnectionId, "Admins");
+            }
+            
+
 
             return base.OnConnected();
         }
 
         public override Task OnDisconnected(bool stopCalled)
         {
-            Groups.Remove(Context.ConnectionId, "Admins");
+            //Groups.Remove(Context.ConnectionId, "Admins");
 
-            //if (Context.User.IsInRole("Admin"))
-            //{
-            //    Groups.Remove(Context.ConnectionId, "Admins");
-            //}
+            if (Context.User.IsInRole("Admin"))
+            {
+                Groups.Remove(Context.ConnectionId, "Admins");
+            }
 
             return base.OnDisconnected(stopCalled);
         }
