@@ -6,6 +6,7 @@ using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using System.Timers;
 using System.Threading.Tasks;
+using BookingApp.Models;
 
 namespace BookingApp.Hubs
 {
@@ -27,9 +28,14 @@ namespace BookingApp.Hubs
 
         }
 
-        public static void SendNotification(int id)
+
+        /// <summary>
+        ///     notifikacija admina da je kreiran smestaj 
+        /// </summary>
+        /// <param name="id"></param>
+        public static void SendNotification(Accommodation accommodation)
         {
-            hubContext.Clients.All.clickNotification(id);
+            hubContext.Clients.Group("Admins").clickNotification(accommodation);
         }
 
         public void GetTime()
@@ -54,6 +60,31 @@ namespace BookingApp.Hubs
             t.Stop();
         }
 
+        public void RegisterForNotification(string userId, string userRole)
+        {
+            if (userRole.Equals("Admin"))
+            {
+                Groups.Add(Context.ConnectionId, "Admins");
+            }
+            else if (userRole.Equals("Manager"))
+            {
+                Groups.Add(Context.ConnectionId, userId);
+            }
+        }
+
+
+        public void UnsubscribeForNotification(string userId, string userRole)
+        {
+            if (userRole.Equals("Admin"))
+            {
+                Groups.Remove(Context.ConnectionId, "Admins");
+            }
+            else if (userRole.Equals("Manager"))
+            {
+                Groups.Remove(Context.ConnectionId, userId);
+            }
+        }
+
         public override Task OnConnected()
         {
             //Ako vam treba pojedinacni User
@@ -61,10 +92,10 @@ namespace BookingApp.Hubs
 
             //Groups.Add(Context.ConnectionId, "Admins");
 
-            if (Context.User.IsInRole("Admin"))
-            {
-                Groups.Add(Context.ConnectionId, "Admins");
-            }
+            //if (Context.User.IsInRole("Admin"))
+            //{
+            //    Groups.Add(Context.ConnectionId, "Admins");
+            //}
             
 
 
@@ -75,10 +106,10 @@ namespace BookingApp.Hubs
         {
             //Groups.Remove(Context.ConnectionId, "Admins");
 
-            if (Context.User.IsInRole("Admin"))
-            {
-                Groups.Remove(Context.ConnectionId, "Admins");
-            }
+            //if (Context.User.IsInRole("Admin"))
+            //{
+            //    Groups.Remove(Context.ConnectionId, "Admins");
+            //}
 
             return base.OnDisconnected(stopCalled);
         }
