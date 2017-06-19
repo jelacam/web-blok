@@ -38,6 +38,22 @@ namespace BookingApp.Hubs
 
             hubContext.Clients.Group("Admins").clickNotification(accommodation);
         }
+
+
+        public void GetNotification()
+        {
+            var accommodations = db.AppAccommodations.Where(p => p.Approved == false);
+
+            if (accommodations != null)
+            {
+                foreach (var accom in accommodations)
+                {
+                    hubContext.Clients.Group("Admins").clickNotification(accom);
+                }
+            }
+            
+
+        }
     
         public void GetTime()
         {
@@ -66,6 +82,7 @@ namespace BookingApp.Hubs
             if (userRole.Equals("Admin"))
             {
                 Groups.Add(Context.ConnectionId, "Admins");
+
             }
             else if (userRole.Equals("Manager"))
             {

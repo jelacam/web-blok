@@ -24,6 +24,23 @@ namespace BookingApp.Controllers
         [Route("accommodations", Name = "AccommodationApi")]
         public IQueryable<Accommodation> GetAccommodations()
         {
+            var accommodations = db.AppAccommodations;
+
+
+            if (accommodations == null)
+            {
+                return null;
+            }
+
+            return accommodations as IQueryable<Accommodation>;
+        }
+
+        [EnableQuery]
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("accommodations/approved")]
+        public IQueryable<Accommodation> GetAprovedAccommodation()
+        {
             var accommodations = db.AppAccommodations.Where(p => p.Approved == true);
 
 
@@ -34,6 +51,7 @@ namespace BookingApp.Controllers
 
             return accommodations as IQueryable<Accommodation>;
         }
+
 
         [AllowAnonymous]
         [HttpGet]

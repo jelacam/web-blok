@@ -77,6 +77,14 @@ namespace BookingApp.Controllers
                 return BadRequest(ModelState);
             }
 
+            var accommodation = db.AppAccommodations.Where(p => p.AccommodationTypeId == id).FirstOrDefault();
+
+            if (accommodation != null)
+            {
+                // postoji smestaj koji referencira ovaj tip smestaja pa brisanje nije dozvoljeno 
+                return BadRequest();
+            }
+
             AccommodationType acctype = new AccommodationType();
 
             foreach (var item in db.AppAccommodationTypes)
