@@ -41,8 +41,8 @@ namespace BookingApp.Controllers
         [Route("accommodations/approved")]
         public IQueryable<Accommodation> GetAprovedAccommodation()
         {
-            var accommodations = db.AppAccommodations.Where(p => p.Approved == true);
-
+            //var accommodations = db.AppAccommodations.Where(p => p.Approved == true);
+            var accommodations = db.AppAccommodations;
 
             if (accommodations == null)
             {
