@@ -47,6 +47,35 @@ namespace BookingApp.Controllers
             return Ok(roomReservations);
         }
 
+        [Authorize]
+        [HttpGet]
+        [Route("roomReservations/{id}")]
+        public IHttpActionResult GetRoomReservations(int id)
+        {
+            
+            var roomReservations = db.AppRoomReservations.Where(p=> p.AppUserId==id);
+
+            if (roomReservations == null)
+            {
+                return NotFound();
+            }
+
+            foreach(var roomRes in roomReservations)
+            {
+                roomRes.StartDate = roomRes.StartDate.Split('T')[0];
+                roomRes.EndDate = roomRes.EndDate.Split('T')[0];
+
+                Room room = db.AppRooms.Where(p => p.Id == roomRes.RoomId).FirstOrDefault() as Room;
+                Accommodation accommodation = db.AppAccommodations.Where(p => p.Id == room.AccommodationId).FirstOrDefault() as Accommodation;
+
+                room.Accommodation = accommodation;
+                roomRes.Room = room;
+                
+            }
+
+            return Ok(roomReservations);
+        }
+
         [HttpPut]
         [Route("roomReservations/{id}")]
         public IHttpActionResult PutRoomReservations(int id, RoomReservations roomReserv)
@@ -283,14 +312,23 @@ namespace BookingApp.Controllers
         {
             var reservation = db.AppRoomReservations.Find(id);
 
-            if (reservation == null)
+
+            var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);//Vadimo iz Identity baze po username-u Identity User-a, koji u sebi sadrzi AppUser-a!
+            if (user != null && user.appUserId.Equals(reservation.AppUserId))
             {
-                return BadRequest();
+                
+
+                if (reservation == null)
+                {
+                    return BadRequest();
+                }
+
+                db.AppRoomReservations.Remove(reservation);
+
+                db.SaveChanges();
+
+                
             }
-
-            db.AppRoomReservations.Remove(reservation);
-
-            db.SaveChanges();
 
             return StatusCode(HttpStatusCode.NoContent);
         }

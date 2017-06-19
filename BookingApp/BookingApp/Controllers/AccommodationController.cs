@@ -41,8 +41,8 @@ namespace BookingApp.Controllers
         [Route("accommodations/approved")]
         public IQueryable<Accommodation> GetAprovedAccommodation()
         {
-            //var accommodations = db.AppAccommodations.Where(p => p.Approved == true);
-            var accommodations = db.AppAccommodations;
+            var accommodations = db.AppAccommodations.Where(p => p.Approved == true);
+            //var accommodations = db.AppAccommodations;
 
             if (accommodations == null)
             {
@@ -205,5 +205,27 @@ namespace BookingApp.Controllers
 
             return StatusCode(HttpStatusCode.NoContent);
         }
+
+        //[Authorize(Roles = "Admin")]
+        [HttpPut]
+        [Route("approve/{id}")]
+        public IHttpActionResult ApproveAccommodation(int id)
+        {
+            var accommodation = db.AppAccommodations.Find(id);
+
+            if (accommodation != null)
+            {
+                accommodation.Approved = true;
+
+                db.SaveChanges();
+            }
+            else
+            {
+                return BadRequest();
+            }
+
+            return Ok();
+        }
+
     }
 }
