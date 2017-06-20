@@ -225,6 +225,9 @@ namespace BookingApp.Controllers
 
                 db.SaveChanges();
 
+                Place place = db.AppPlaces.Find(accommodation.PlaceId);
+                accommodation.Place = place;
+
                 Hubs.NotificationHub.SendApprovedAccommodationNotification(accommodation);
             }
             else
