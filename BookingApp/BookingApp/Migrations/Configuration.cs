@@ -63,7 +63,8 @@ namespace BookingApp.Migrations
                        p => p.Id,
                             new AppUser { Id = 1, UserName = "adminn", FullName = "adminn" },
                             new AppUser { Id = 2, UserName = "maki", FullName = "maki" },
-                            new AppUser { Id = 3, UserName = "dukica", FullName = "dukica" }
+                            new AppUser { Id = 3, UserName = "dukica", FullName = "dukica" },
+                            new AppUser { Id = 4, UserName = "manager", FullName = "manager"}
                      );
 
             if (!context.Users.Any(u => u.UserName == "adminn"))
@@ -92,6 +93,18 @@ namespace BookingApp.Migrations
                 userManager.Create(user);
                 userManager.AddToRole(user.Id, "Manager");
             }
+
+            if (!context.Users.Any(u => u.UserName == "manager"))
+            {
+                var appUser = context.AppUsers.FirstOrDefault(p => p.FullName == "manager");
+
+                var user = new BAIdentityUser() { Id = "manager", UserName = "manager", Email = "manager@yahoo.com", PasswordHash = BAIdentityUser.HashPassword("manager"), appUserId = 4 };
+                userManager.Create(user);
+                userManager.AddToRole(user.Id, "Manager");
+            }
+
+
+
 
             //dodavanje drzava
             context.AppCountries.AddOrUpdate(

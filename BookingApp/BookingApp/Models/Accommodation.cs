@@ -33,8 +33,8 @@ namespace BookingApp.Models
         [ForeignKey("Place")]
         public int PlaceId { get; set; }
 
-        [JsonIgnore]
-        public RoomReservations Place { get; set; }
+        //[JsonIgnore]
+        public Place Place { get; set; }
 
         public List<Comment> Comment { get; set; }
 

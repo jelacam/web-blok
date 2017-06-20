@@ -16,6 +16,7 @@ namespace BookingApp.Hubs
         private static IHubContext hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
         private static Timer t = new Timer();
         private static BAContext db = new BAContext();
+        private static Dictionary<int, string> connections = new Dictionary<int, string>();
 
         public void Hello()
         {
@@ -61,7 +62,7 @@ namespace BookingApp.Hubs
 
         public static void SendApprovedAccommodationNotification(Accommodation accommodation)
         {
-            hubContext.Clients.Groud(accommodation.AppUserId).recieveApprovedAccomodation(accommodation);
+            hubContext.Clients.Group(accommodation.AppUserId.ToString()).recieveApprovedAccomodation(accommodation);
         }
 
 

@@ -183,7 +183,7 @@ namespace BookingApp.Controllers
 
         // GET: odata/AccommodationsPaging(5)/Place
         [EnableQuery]
-        public SingleResult<RoomReservations> GetPlace([FromODataUri] int key)
+        public SingleResult<Place> GetPlace([FromODataUri] int key)
         {
             return SingleResult.Create(db.AppAccommodations.Where(m => m.Id == key).Select(m => m.Place));
         }

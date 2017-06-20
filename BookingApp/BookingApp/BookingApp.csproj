@@ -342,6 +342,14 @@
     <Compile Include="Migrations\201706132050070_RoomReservationMigration.Designer.cs">
       <DependentUpon>201706132050070_RoomReservationMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706201431102_AccommodationMigration.cs" />
+    <Compile Include="Migrations\201706201431102_AccommodationMigration.Designer.cs">
+      <DependentUpon>201706201431102_AccommodationMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706201625312_AllowedToAccomm.cs" />
+    <Compile Include="Migrations\201706201625312_AllowedToAccomm.Designer.cs">
+      <DependentUpon>201706201625312_AllowedToAccomm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Accommodation.cs" />
     <Compile Include="Models\AccommodationType.cs" />
@@ -477,6 +485,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706132050070_RoomReservationMigration.resx">
       <DependentUpon>201706132050070_RoomReservationMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706201431102_AccommodationMigration.resx">
+      <DependentUpon>201706201431102_AccommodationMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706201625312_AllowedToAccomm.resx">
+      <DependentUpon>201706201625312_AllowedToAccomm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

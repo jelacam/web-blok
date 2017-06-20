@@ -34,14 +34,74 @@ namespace BookingApp.Controllers
         }
 
         
-        [Authorize(Roles = "Manager")]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("Users")]
-        public IQueryable<AppUser> m1()
+        public IHttpActionResult m1()
         {
-            return db.AppUsers;
+            List<AppUser> list = new List<AppUser>(10);
+
+            foreach(var user in db.AppUsers)
+            {
+                bool isManager = UserManager.IsInRole(user.UserName, "Manager");
+
+                if (isManager)
+                {
+                    list.Add(user);
+                }
+            }
+            if (list.Count == 0)
+            {
+                return BadRequest();
+            }
+
+            return Ok(list);
         }
-        
+
+        [Authorize(Roles ="Admin")]
+        [HttpPut]
+        [Route("update/allow/{id}")]
+        public IHttpActionResult UpdateUserAllow(int id)
+        {
+            var user = db.AppUsers.Find(id);
+
+            if (user != null)
+            {
+                user.Allow = true;
+                db.SaveChanges();
+
+                return Ok();
+
+            }
+            else
+            {
+                return BadRequest();
+            }
+            
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut]
+        [Route("update/permit/{id}")]
+        public IHttpActionResult UpdateUserPermit(int id)
+        {
+            var user = db.AppUsers.Find(id);
+
+            if (user != null)
+            {
+                user.Allow = false;
+                db.SaveChanges();
+
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+
+
         [Authorize(Roles = "Manager, Admin")]
         [HttpGet]
         [Route("Countires")]

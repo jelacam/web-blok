@@ -15,6 +15,8 @@ namespace BookingApp.Models
 
         public string UserName { get; set; }
 
+        public bool Allow { get; set; }
+
         public List<RoomReservations> RoomReservations { get; set; }
 
         public List<Comment> Comment { get; set; }

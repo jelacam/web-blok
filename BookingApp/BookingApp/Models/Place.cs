@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,6 +21,7 @@ namespace BookingApp.Models
 
         public Region Region { get; set; }
 
+        [JsonIgnore]
         public List<Accommodation> Accomodation { get; set; }
     }
 }
