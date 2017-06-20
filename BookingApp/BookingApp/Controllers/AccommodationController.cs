@@ -224,6 +224,8 @@ namespace BookingApp.Controllers
                 accommodation.Approved = true;
 
                 db.SaveChanges();
+
+                Hubs.NotificationHub.SendApprovedAccommodationNotification(accommodation);
             }
             else
             {

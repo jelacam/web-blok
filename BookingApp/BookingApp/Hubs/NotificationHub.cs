@@ -55,10 +55,16 @@ namespace BookingApp.Hubs
                     }
                     hubContext.Clients.Group("Admins").clickNotification(accom);
                 }
-            }
-            
+            }   
 
         }
+
+        public static void SendApprovedAccommodationNotification(Accommodation accommodation)
+        {
+            hubContext.Clients.Groud(accommodation.AppUserId).recieveApprovedAccomodation(accommodation);
+        }
+
+
     
         public void GetTime()
         {
