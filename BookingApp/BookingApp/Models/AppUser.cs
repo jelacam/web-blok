@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -17,7 +18,8 @@ namespace BookingApp.Models
         public List<RoomReservations> RoomReservations { get; set; }
 
         public List<Comment> Comment { get; set; }
-
+        
+        [JsonIgnore]
         public List<Accommodation> Accommodation { get; set; }
 
     }

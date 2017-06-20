@@ -150,6 +150,12 @@ namespace BookingApp.Controllers
                 db.AppAccommodations.Add(accommodation);
                 db.SaveChanges();
 
+                var manager = db.AppUsers.Find(accommodation.AppUserId);
+                if (manager != null)
+                {
+                    accommodation.AppUser = manager;
+                }
+
                 Hubs.NotificationHub.SendNotification(accommodation);
 
                 return CreatedAtRoute("AccommodationApi", new { id = accommodation.Id }, accommodation);

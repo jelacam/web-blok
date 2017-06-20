@@ -48,6 +48,11 @@ namespace BookingApp.Hubs
             {
                 foreach (var accom in accommodations)
                 {
+                    var manager = db.AppUsers.Find(accom.AppUserId);
+                    if (manager != null)
+                    {
+                        accom.AppUser = manager;
+                    }
                     hubContext.Clients.Group("Admins").clickNotification(accom);
                 }
             }
