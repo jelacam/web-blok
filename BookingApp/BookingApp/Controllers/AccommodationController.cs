@@ -1,5 +1,4 @@
 ﻿using BookingApp.Models;
-using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
@@ -11,7 +10,6 @@ using System.Web.Http.OData;
 
 namespace BookingApp.Controllers
 {
-    
     [RoutePrefix("api/accommodation")]
     public class AccommodationController : ApiController
     {
@@ -25,7 +23,6 @@ namespace BookingApp.Controllers
         public IQueryable<Accommodation> GetAccommodations()
         {
             var accommodations = db.AppAccommodations;
-
 
             if (accommodations == null)
             {
@@ -51,7 +48,6 @@ namespace BookingApp.Controllers
 
             return accommodations as IQueryable<Accommodation>;
         }
-
 
         [AllowAnonymous]
         [HttpGet]
@@ -80,6 +76,11 @@ namespace BookingApp.Controllers
                 return BadRequest(ModelState);
             }
 
+            var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            if (!user.appUserId.Equals(accommodation.AppUserId))
+            {
+                return BadRequest();
+            }
             if (id != accommodation.Id)
             {
                 return BadRequest("Ids are not matching!");
@@ -90,7 +91,6 @@ namespace BookingApp.Controllers
 
             if (accommodation.ImageURL == null)
             {
-                
                 accommodation.ImageURL = accommodationOld.ImageURL;
             }
 
@@ -205,6 +205,12 @@ namespace BookingApp.Controllers
                 return BadRequest(ModelState);
             }
 
+            var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            var accommodationV = db.AppAccommodations.Find(id);
+            if (!user.appUserId.Equals(accommodationV.AppUserId))
+            {
+                return BadRequest();
+            }
             db.AppAccommodations.Remove(accommodation);
 
             db.SaveChanges();
@@ -212,7 +218,7 @@ namespace BookingApp.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         [Route("approve/{id}")]
         public IHttpActionResult ApproveAccommodation(int id)
@@ -237,6 +243,5 @@ namespace BookingApp.Controllers
 
             return Ok();
         }
-
     }
 }

@@ -12,24 +12,30 @@ namespace BookingApp.Models
     {
         [Key]
         public int Id { get; set; }
-
+   
         [MaxLength(40)]
         public string Name { get; set; }
+
         [MaxLength(400)]
         public string Description { get; set; }
+
+   
         [MaxLength(60)]
         public string Address { get; set; }
 
         public double AverageGrade { get; set; }
 
+    
         public double Latitude { get; set; }
 
+  
         public double Longitute { get; set; }
 
         public string ImageURL { get; set; }
 
         public bool Approved { get; set; }
 
+ 
         [ForeignKey("Place")]
         public int PlaceId { get; set; }
 
@@ -46,6 +52,7 @@ namespace BookingApp.Models
 
         public List<Room> Room { get; set; }
 
+       
         [ForeignKey("AppUser")]
         public int AppUserId { get; set; }
 

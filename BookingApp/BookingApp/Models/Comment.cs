@@ -12,15 +12,20 @@ namespace BookingApp.Models
         [Key]
         public int Id { get; set; }
 
+   
         public int Grade { get; set; }
+
+
         [MaxLength(400)]
         public string Text { get; set; }
 
+   
         [ForeignKey("Accommodation")]
         public int AccommodationId { get; set; }
 
         public Accommodation Accommodation { get; set; }
 
+  
         [ForeignKey("AppUser")]
         public int AppUserId { get; set; }
 

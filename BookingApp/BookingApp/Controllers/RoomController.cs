@@ -1,4 +1,5 @@
 ﻿using BookingApp.Models;
+using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -17,6 +18,18 @@ namespace BookingApp.Controllers
     public class RoomController : ApiController
     {
         private BAContext db = new BAContext();
+        private ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
 
         [EnableQuery]
         [HttpGet]
@@ -24,6 +37,7 @@ namespace BookingApp.Controllers
         public IQueryable<Room> GetRooms()
         {
             DbSet<Room> rooms = db.AppRooms;
+
             //List<Room> ret = new List<Room>();
 
             //foreach(var reservation in db.AppRoomReservations)
@@ -96,6 +110,13 @@ namespace BookingApp.Controllers
                 return BadRequest(ModelState);
             }
 
+            var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            var accommodation = db.AppAccommodations.Find(room.AccommodationId);
+            if (!user.appUserId.Equals(accommodation.AppUserId))
+            {
+                return BadRequest();
+            }
+
             if (id != room.Id)
             {
                 return BadRequest("Ids are not matching!");
@@ -130,6 +151,14 @@ namespace BookingApp.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            var roomV = db.AppRooms.Find(id);
+            var accommodation = db.AppAccommodations.Find(roomV.AccommodationId);
+            if (!user.appUserId.Equals(accommodation.AppUserId))
+            {
+                return BadRequest();
             }
 
             Room room = new Room();
@@ -180,6 +209,12 @@ namespace BookingApp.Controllers
                 return BadRequest(ModelState);
             }
 
+            var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            var accommodation = db.AppAccommodations.Find(room.AccommodationId);
+            if (!user.appUserId.Equals(accommodation.AppUserId))
+            {
+                return BadRequest();
+            }
             try
             {
                 db.AppRooms.Add(room);

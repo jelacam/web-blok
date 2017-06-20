@@ -1,6 +1,7 @@
 ﻿using BookingApp.Models;
 using Microsoft.AspNet.Identity.Owin;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Globalization;
@@ -52,6 +53,7 @@ namespace BookingApp.Controllers
         [Route("roomReservations/{id}")]
         public IHttpActionResult GetRoomReservations(int id)
         {
+            List<RoomReservations> reservation = new List<RoomReservations>();
             
             var roomReservations = db.AppRoomReservations.Where(p=> p.AppUserId==id);
 
@@ -70,10 +72,23 @@ namespace BookingApp.Controllers
 
                 room.Accommodation = accommodation;
                 roomRes.Room = room;
-                
+
+                DateTime startDate = DateTime.ParseExact(roomRes.StartDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+                DateTime today = DateTime.Now;
+
+                if (startDate > today)
+                {
+                    reservation.Add(roomRes);
+                }
             }
 
-            return Ok(roomReservations);
+            if (reservation.Count > 0)
+            {
+                return Ok(reservation);
+            }
+
+            return BadRequest();
         }
 
         [HttpPut]
@@ -312,16 +327,17 @@ namespace BookingApp.Controllers
         {
             var reservation = db.AppRoomReservations.Find(id);
 
+            if (reservation == null)
+            {
+                return BadRequest();
+            }
 
             var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);//Vadimo iz Identity baze po username-u Identity User-a, koji u sebi sadrzi AppUser-a!
             if (user != null && user.appUserId.Equals(reservation.AppUserId))
             {
                 
 
-                if (reservation == null)
-                {
-                    return BadRequest();
-                }
+                
 
                 db.AppRoomReservations.Remove(reservation);
 
